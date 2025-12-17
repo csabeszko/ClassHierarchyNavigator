@@ -5,6 +5,7 @@ using Microsoft.CodeAnalysis;
 using Microsoft.VisualStudio.LanguageServices;
 using Microsoft.VisualStudio.Shell;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -43,11 +44,6 @@ namespace ClassHierarchyNavigator.Navigation
                     cancellationToken);
             }
 
-            if (candidates.Count == 0)
-            {
-                return;
-            }
-
             if (candidates.Count == 1)
             {
                 await SymbolNavigationService.NavigateToTypeAsync(
@@ -59,9 +55,12 @@ namespace ClassHierarchyNavigator.Navigation
                 return;
             }
 
+            var warningText = CreateWarningText(workspace);
+            var statusText = candidates.Count == 0 ? "No results." : null;
+
             await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync(cancellationToken);
 
-            var window = new TypeSelectionWindow(candidates, direction, typeSymbol);
+            var window = new TypeSelectionWindow(candidates, direction, typeSymbol, warningText, statusText);
 
             WindowPositionHelper.CenterOnCurrentMonitor(window);
 
@@ -75,6 +74,34 @@ namespace ClassHierarchyNavigator.Navigation
                     document.Project,
                     cancellationToken);
             }
+        }
+
+        private static string? CreateWarningText(VisualStudioWorkspace workspace)
+        {
+            if (workspace == null)
+            {
+                return null;
+            }
+
+            var solution = workspace.CurrentSolution;
+            if (solution == null)
+            {
+                return "Solution is not fully loaded. Results may be incomplete.";
+            }
+
+            var projectCount = solution.Projects.Count();
+            if (projectCount == 0)
+            {
+                return "Solution is not fully loaded. Results may be incomplete.";
+            }
+
+            var projectsWithoutDocuments = solution.Projects.Where(x => x.Documents.Count() == 0).Take(1).ToList();
+            if (projectsWithoutDocuments.Count > 0)
+            {
+                return "Some projects appear to be unloaded. Results may be incomplete.";
+            }
+
+            return null;
         }
     }
 }

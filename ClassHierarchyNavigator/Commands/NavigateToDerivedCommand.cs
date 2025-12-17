@@ -100,9 +100,9 @@ namespace ClassHierarchyNavigator
                 {
                     await ExecuteAsync();
                 }
-                catch
+                catch (Exception ex)
                 {
-                    string message = string.Format(CultureInfo.CurrentCulture, "Inside {0}.MenuItemCallback()", this.GetType().FullName);
+                    string message = ex.Message;
                     string title = "NavigateToDerivedCommand";
 
                     // Show a message box to prove we were here
@@ -110,7 +110,7 @@ namespace ClassHierarchyNavigator
                         this._package,
                         message,
                         title,
-                        OLEMSGICON.OLEMSGICON_INFO,
+                        OLEMSGICON.OLEMSGICON_CRITICAL,
                         OLEMSGBUTTON.OLEMSGBUTTON_OK,
                         OLEMSGDEFBUTTON.OLEMSGDEFBUTTON_FIRST);
                 }
