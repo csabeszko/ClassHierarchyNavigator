@@ -57,6 +57,7 @@
     <Compile Include="Services\DerivedTypeProvider.cs" />
     <Compile Include="Services\SymbolNavigationService.cs" />
     <Compile Include="Services\TypeSymbolLocator.cs" />
+    <Compile Include="UI\TypeDisplayNameProvider.cs" />
     <Compile Include="UI\TypeSelectionWindow.xaml.cs">
       <DependentUpon>TypeSelectionWindow.xaml</DependentUpon>
     </Compile>

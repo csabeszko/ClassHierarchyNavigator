@@ -2,17 +2,11 @@
 using ClassHierarchyNavigator.Services;
 using ClassHierarchyNavigator.UI;
 using Microsoft.CodeAnalysis;
-using Microsoft.VisualStudio.Editor;
 using Microsoft.VisualStudio.LanguageServices;
 using Microsoft.VisualStudio.Shell;
-using Microsoft.VisualStudio.Text;
-using Microsoft.VisualStudio.Text.Editor;
-using Microsoft.VisualStudio.TextManager.Interop;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
-using Microsoft.VisualStudio.ComponentModelHost;
-
 
 namespace ClassHierarchyNavigator.Navigation
 {
@@ -67,47 +61,9 @@ namespace ClassHierarchyNavigator.Navigation
 
             await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync(cancellationToken);
 
-            var textManager = (IVsTextManager)ServiceProvider.GlobalProvider.GetService(typeof(SVsTextManager));
-            if (textManager == null)
-            {
-                return;
-            }
+            var window = new TypeSelectionWindow(candidates, direction, typeSymbol);
 
-            textManager.GetActiveView(1, null, out IVsTextView vsTextView);
-            if (vsTextView == null)
-            {
-                return;
-            }
-
-            var componentModel = (IComponentModel)ServiceProvider.GlobalProvider.GetService(typeof(SComponentModel));
-            if (componentModel == null)
-            {
-                return;
-            }
-
-            var editorAdaptersFactoryService = componentModel.GetService<IVsEditorAdaptersFactoryService>();
-            if (editorAdaptersFactoryService == null)
-            {
-                return;
-            }
-
-            IWpfTextView wpfTextView = editorAdaptersFactoryService.GetWpfTextView(vsTextView);
-            if (wpfTextView == null)
-            {
-                return;
-            }
-
-            if (position < 0 || position > wpfTextView.TextSnapshot.Length)
-            {
-                return;
-            }
-
-            var snapshotPoint = new SnapshotPoint(wpfTextView.TextSnapshot, position);
-            var snapshotSpan = new SnapshotSpan(snapshotPoint, 0);
-
-            var window = new TypeSelectionWindow(candidates, direction);
-            bool preferAbove = direction == NavigationDirection.Base;
-            WindowPositionHelper.PositionAroundSpan(window, wpfTextView, snapshotSpan, preferAbove);
+            WindowPositionHelper.CenterOnCurrentMonitor(window);
 
             var result = window.ShowDialog();
 

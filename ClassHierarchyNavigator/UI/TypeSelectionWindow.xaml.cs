@@ -26,7 +26,8 @@ namespace ClassHierarchyNavigator.UI
 
         public TypeSelectionWindow(
             IReadOnlyList<LeveledSymbol> candidateSymbols,
-            NavigationDirection direction)
+            NavigationDirection direction,
+            INamedTypeSymbol targetTypeSymbol)
         {
             InitializeComponent();
 
@@ -34,16 +35,19 @@ namespace ClassHierarchyNavigator.UI
 
             navigationDirection = direction;
 
+            var targetTypeDisplayName = TypeDisplayNameProvider.GetDisplayName(targetTypeSymbol);
+
             if (direction == NavigationDirection.Base)
             {
-                HeaderText = "Find base types";
+                HeaderText = $"Find base types of {targetTypeDisplayName}";
                 HeaderArrow = "↑";
             }
             else
             {
-                HeaderText = "Find derived types";
-                HeaderArrow = "↑";
+                HeaderText = $"Find derived types of {targetTypeDisplayName}";
+                HeaderArrow = "↓";
             }
+
 
             var items = candidateSymbols
                 .Select(CreateItemFromSymbol)

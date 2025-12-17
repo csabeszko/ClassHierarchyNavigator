@@ -1,133 +1,96 @@
-﻿using Microsoft.VisualStudio.Text;
-using Microsoft.VisualStudio.Text.Editor;
-using Microsoft.VisualStudio.Text.Formatting;
-using System;
+﻿using System;
 using System.Windows;
-using System.Windows.Forms;
+using System.Windows.Interop;
 
 namespace ClassHierarchyNavigator.UI
 {
     public static class WindowPositionHelper
     {
-        public static void PositionAroundSpan(Window window, IWpfTextView wpfTextView, SnapshotSpan snapshotSpan, bool preferAbove)
+        public static void CenterOnCurrentMonitor(Window window)
         {
             if (window == null)
             {
                 return;
             }
 
-            if (wpfTextView == null)
-            {
-                return;
-            }
-
-            if (snapshotSpan.Snapshot != wpfTextView.TextSnapshot)
-            {
-                snapshotSpan = snapshotSpan.TranslateTo(wpfTextView.TextSnapshot, SpanTrackingMode.EdgeInclusive);
-            }
-
-            wpfTextView.ViewScroller.EnsureSpanVisible(snapshotSpan, EnsureSpanVisibleOptions.MinimumScroll);
-            wpfTextView.VisualElement.UpdateLayout();
-
-            SnapshotPoint startPoint = snapshotSpan.Start;
-            SnapshotPoint endPoint = snapshotSpan.End;
-
-            ITextViewLine startLine = wpfTextView.TextViewLines.GetTextViewLineContainingBufferPosition(startPoint);
-            if (startLine == null)
-            {
-                return;
-            }
-
-            ITextViewLine endLine = wpfTextView.TextViewLines.GetTextViewLineContainingBufferPosition(endPoint) ?? startLine;
-
-            TextBounds startBounds = startLine.GetCharacterBounds(startPoint);
-
-            TextBounds endBounds;
-            if (snapshotSpan.Length == 0)
-            {
-                endBounds = startBounds;
-            }
-            else
-            {
-                SnapshotPoint endForBounds = endPoint.Position > 0
-                    ? new SnapshotPoint(endPoint.Snapshot, endPoint.Position - 1)
-                    : endPoint;
-
-                endBounds = endLine.GetCharacterBounds(endForBounds);
-            }
-
-            double spanCenterX = (startBounds.Left + endBounds.Right) / 2.0;
-
-            Point belowViewPoint = new Point(spanCenterX, startBounds.Bottom);
-            Point aboveViewPoint = new Point(spanCenterX, startBounds.Top);
-
-            Point belowScreenPoint = wpfTextView.VisualElement.PointToScreen(belowViewPoint);
-            Point aboveScreenPoint = wpfTextView.VisualElement.PointToScreen(aboveViewPoint);
-
             window.WindowStartupLocation = WindowStartupLocation.Manual;
 
-            window.Measure(new Size(double.PositiveInfinity, double.PositiveInfinity));
-            double windowWidth = double.IsNaN(window.Width) ? window.DesiredSize.Width : window.Width;
-            double windowHeight = double.IsNaN(window.Height) ? window.DesiredSize.Height : window.Height;
-
-            double horizontalLeft = belowScreenPoint.X - (windowWidth / 2.0);
-
-            Screen screen = Screen.FromPoint(new System.Drawing.Point((int)belowScreenPoint.X, (int)belowScreenPoint.Y));
-            System.Drawing.Rectangle workingArea = screen.WorkingArea;
-
-            double verticalGap = 6.0;
-
-            double topIfBelow = belowScreenPoint.Y + verticalGap;
-            double topIfAbove = aboveScreenPoint.Y - windowHeight - verticalGap;
-
-            bool canPlaceBelow = topIfBelow + windowHeight <= workingArea.Bottom;
-            bool canPlaceAbove = topIfAbove >= workingArea.Top;
-
-            double chosenTop;
-
-            if (preferAbove)
+            if (window.IsLoaded == false)
             {
-                chosenTop = canPlaceAbove ? topIfAbove : topIfBelow;
-            }
-            else
-            {
-                chosenTop = canPlaceBelow ? topIfBelow : topIfAbove;
+                window.Loaded += HandleWindowLoaded;
+                return;
             }
 
-            window.Left = horizontalLeft;
-            window.Top = chosenTop;
-
-            ClampWindowToMonitor(window, screen, windowWidth, windowHeight);
+            CenterNow(window);
         }
 
-        private static void ClampWindowToMonitor(Window window, Screen screen, double windowWidth, double windowHeight)
+        private static void HandleWindowLoaded(object sender, RoutedEventArgs e)
         {
-            System.Drawing.Rectangle workingArea = screen.WorkingArea;
-
-            double leftBound = workingArea.Left;
-            double topBound = workingArea.Top;
-            double rightBound = workingArea.Right;
-            double bottomBound = workingArea.Bottom;
-
-            if (window.Left + windowWidth > rightBound)
+            if (sender is not Window window)
             {
-                window.Left = rightBound - windowWidth;
+                return;
             }
 
-            if (window.Left < leftBound)
+            window.Loaded -= HandleWindowLoaded;
+
+            CenterNow(window);
+        }
+
+        private static void CenterNow(Window window)
+        {
+            var windowHandle = new WindowInteropHelper(window).Handle;
+
+            var screen = windowHandle != IntPtr.Zero
+                ? System.Windows.Forms.Screen.FromHandle(windowHandle)
+                : System.Windows.Forms.Screen.FromPoint(System.Windows.Forms.Cursor.Position);
+
+            var workingAreaPixels = screen.WorkingArea;
+
+            var dpiScale = GetDpiScale(window);
+
+            var workingAreaLeftDip = workingAreaPixels.Left / dpiScale.DpiScaleX;
+            var workingAreaTopDip = workingAreaPixels.Top / dpiScale.DpiScaleY;
+            var workingAreaWidthDip = workingAreaPixels.Width / dpiScale.DpiScaleX;
+            var workingAreaHeightDip = workingAreaPixels.Height / dpiScale.DpiScaleY;
+
+            var windowWidthDip = window.ActualWidth;
+            var windowHeightDip = window.ActualHeight;
+
+            if (windowWidthDip <= 0.0)
             {
-                window.Left = leftBound;
+                windowWidthDip = window.Width;
             }
 
-            if (window.Top + windowHeight > bottomBound)
+            if (windowHeightDip <= 0.0)
             {
-                window.Top = bottomBound - windowHeight;
+                windowHeightDip = window.Height;
             }
 
-            if (window.Top < topBound)
+            if (double.IsNaN(windowWidthDip) || windowWidthDip <= 0.0)
             {
-                window.Top = topBound;
+                windowWidthDip = 420.0;
             }
+
+            if (double.IsNaN(windowHeightDip) || windowHeightDip <= 0.0)
+            {
+                windowHeightDip = 260.0;
+            }
+
+            window.Left = workingAreaLeftDip + (workingAreaWidthDip - windowWidthDip) / 2.0;
+            window.Top = workingAreaTopDip + (workingAreaHeightDip - windowHeightDip) / 2.0;
+        }
+
+        private static DpiScale GetDpiScale(Window window)
+        {
+            var presentationSource = PresentationSource.FromVisual(window);
+            if (presentationSource?.CompositionTarget == null)
+            {
+                return new DpiScale(1.0, 1.0);
+            }
+
+            return new DpiScale(
+                presentationSource.CompositionTarget.TransformToDevice.M11,
+                presentationSource.CompositionTarget.TransformToDevice.M22);
         }
     }
 }
