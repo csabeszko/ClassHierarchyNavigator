@@ -1,0 +1,17 @@
+﻿using Microsoft.CodeAnalysis;
+
+namespace ClassHierarchyNavigator.UI
+{
+    public static class TypeDisplayNameProvider
+    {
+        public static string GetDisplayName(INamedTypeSymbol typeSymbol)
+        {
+            if (typeSymbol == null)
+            {
+                return string.Empty;
+            }
+
+            return typeSymbol.ToDisplayString(SymbolDisplayFormat.MinimallyQualifiedFormat);
+        }
+    }
+}
