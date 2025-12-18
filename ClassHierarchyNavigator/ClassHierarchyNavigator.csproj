@@ -57,7 +57,10 @@
     <Compile Include="Services\DerivedTypeProvider.cs" />
     <Compile Include="Services\SymbolNavigationService.cs" />
     <Compile Include="Services\TypeSymbolLocator.cs" />
+    <Compile Include="UI\GroupHeaderEntry.cs" />
+    <Compile Include="UI\SymbolEntry.cs" />
     <Compile Include="UI\TypeDisplayNameProvider.cs" />
+    <Compile Include="UI\TypeListEntry.cs" />
     <Compile Include="UI\TypeSelectionWindow.xaml.cs">
       <DependentUpon>TypeSelectionWindow.xaml</DependentUpon>
     </Compile>
@@ -111,8 +114,13 @@
     </VSCTCompile>
   </ItemGroup>
   <ItemGroup>
+    <Resource Include="Resources\down.png" />
+    <Content Include="Resources\logo.png">
+      <IncludeInVSIX>true</IncludeInVSIX>
+    </Content>
     <Content Include="Resources\NavigateToBaseCommand.png" />
     <Content Include="Resources\NavigateToDerivedCommand.png" />
+    <Resource Include="Resources\up.png" />
   </ItemGroup>
   <ItemGroup>
     <Page Include="UI\TypeSelectionWindow.xaml">

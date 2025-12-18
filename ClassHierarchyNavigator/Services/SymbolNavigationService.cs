@@ -2,6 +2,7 @@
 using Microsoft.CodeAnalysis;
 using Microsoft.VisualStudio.LanguageServices;
 using Microsoft.VisualStudio.Shell;
+using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -12,22 +13,31 @@ namespace ClassHierarchyNavigator.Services
         public static async Task NavigateToTypeAsync(
             VisualStudioWorkspace workspace,
             LeveledSymbol leveledSymbol,
-            Project project,
+            IEnumerable<Project> projects,
             CancellationToken cancellationToken)
         {
-            if (leveledSymbol == null)
+            if (leveledSymbol is null)
             {
                 return;
             }
 
-            if (project == null)
+            if (projects is null)
             {
                 return;
             }
 
             await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync(cancellationToken);
 
-            await workspace.TryGoToDefinitionAsync(leveledSymbol.Symbol, project, cancellationToken);
+            foreach (var project in projects)
+            {
+                if (project is not null)
+                {
+                    if(await workspace.TryGoToDefinitionAsync(leveledSymbol.Symbol, project, cancellationToken))
+                    {
+                        break;
+                    }
+                }
+            }
         }
     }
 }

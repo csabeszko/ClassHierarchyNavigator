@@ -10,102 +10,22 @@ using System.Runtime.CompilerServices;
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Animation;
+using System.Windows.Media.Imaging;
 
 namespace ClassHierarchyNavigator.UI
 {
     public partial class TypeSelectionWindow : Window, INotifyPropertyChanged
     {
-        public LeveledSymbol? SelectedSymbol { get; private set; }
+        private static readonly Uri _baseArrowUri = new Uri("pack://application:,,,/ClassHierarchyNavigator;component/Resources/up.png", UriKind.Absolute);
+        private static readonly Uri _derivedArrowUri = new Uri("pack://application:,,,/ClassHierarchyNavigator;component/Resources/down.png", UriKind.Absolute);
 
-        public string HeaderText { get; }
+        private readonly NavigationDirection _navigationDirection;
+        private readonly IReadOnlyList<LeveledSymbol> _allCandidateSymbols;
+        private readonly bool _isTargetInterface;
 
-        public string HeaderArrow { get; }
-
-        public event PropertyChangedEventHandler? PropertyChanged;
-
-        public string SearchText
-        {
-            get
-            {
-                return searchText;
-            }
-            set
-            {
-                var normalizedValue = value ?? string.Empty;
-                if (string.Equals(searchText, normalizedValue, StringComparison.Ordinal))
-                {
-                    return;
-                }
-
-                searchText = normalizedValue;
-                OnPropertyChanged();
-                RebuildEntries();
-            }
-        }
-
-        public string StatusText
-        {
-            get
-            {
-                return statusText;
-            }
-            private set
-            {
-                if (string.Equals(statusText, value ?? string.Empty, StringComparison.Ordinal))
-                {
-                    return;
-                }
-
-                statusText = value ?? string.Empty;
-                OnPropertyChanged();
-                OnPropertyChanged(nameof(HasStatus));
-            }
-        }
-
-        public bool HasStatus
-        {
-            get
-            {
-                return !string.IsNullOrWhiteSpace(statusText);
-            }
-        }
-
-        public string WarningText
-        {
-            get
-            {
-                return warningText;
-            }
-            private set
-            {
-                if (string.Equals(warningText, value ?? string.Empty, StringComparison.Ordinal))
-                {
-                    return;
-                }
-
-                warningText = value ?? string.Empty;
-                OnPropertyChanged();
-                OnPropertyChanged(nameof(HasWarning));
-            }
-        }
-
-        public bool HasWarning
-        {
-            get
-            {
-                return !string.IsNullOrWhiteSpace(warningText);
-            }
-        }
-
-        private readonly NavigationDirection navigationDirection;
-        private readonly IReadOnlyList<LeveledSymbol> allCandidateSymbols;
-        private readonly INamedTypeSymbol targetTypeSymbol;
-        private readonly bool isTargetInterface;
-
-        private string searchText = string.Empty;
-        private string statusText = string.Empty;
-        private string warningText = string.Empty;
+        private string _searchText = string.Empty;
+        private string _statusText = string.Empty;
+        private string _warningText = string.Empty;
 
         public TypeSelectionWindow(
             IReadOnlyList<LeveledSymbol> candidateSymbols,
@@ -118,23 +38,20 @@ namespace ClassHierarchyNavigator.UI
 
             DataContext = this;
 
-            navigationDirection = direction;
+            _navigationDirection = direction;
 
-            allCandidateSymbols = candidateSymbols ?? Array.Empty<LeveledSymbol>();
-            this.targetTypeSymbol = targetTypeSymbol;
-            isTargetInterface = targetTypeSymbol.TypeKind == TypeKind.Interface;
+            _allCandidateSymbols = candidateSymbols ?? Array.Empty<LeveledSymbol>();
+            _isTargetInterface = targetTypeSymbol.TypeKind == TypeKind.Interface;
 
             var targetTypeDisplayName = TypeDisplayNameProvider.GetDisplayName(targetTypeSymbol);
 
             if (direction == NavigationDirection.Base)
             {
                 HeaderText = $"Find base types of {targetTypeDisplayName}";
-                HeaderArrow = "↑";
             }
             else
             {
                 HeaderText = $"Find derived types of {targetTypeDisplayName}";
-                HeaderArrow = "↓";
             }
 
             WarningText = warningText ?? string.Empty;
@@ -143,11 +60,91 @@ namespace ClassHierarchyNavigator.UI
             RebuildEntries();
         }
 
+        public LeveledSymbol? SelectedSymbol { get; private set; }
+
+        public string HeaderText { get; }
+
+        public event PropertyChangedEventHandler? PropertyChanged;
+
+        public string SearchText
+        {
+            get
+            {
+                return _searchText;
+            }
+            set
+            {
+                var normalizedValue = value ?? string.Empty;
+                if (string.Equals(_searchText, normalizedValue, StringComparison.Ordinal))
+                {
+                    return;
+                }
+
+                _searchText = normalizedValue;
+                OnPropertyChanged();
+                RebuildEntries();
+            }
+        }
+
+        public string StatusText
+        {
+            get
+            {
+                return _statusText;
+            }
+            private set
+            {
+                if (string.Equals(_statusText, value ?? string.Empty, StringComparison.Ordinal))
+                {
+                    return;
+                }
+
+                _statusText = value ?? string.Empty;
+                OnPropertyChanged();
+                OnPropertyChanged(nameof(HasStatus));
+            }
+        }
+
+        public bool HasStatus
+        {
+            get
+            {
+                return !string.IsNullOrWhiteSpace(_statusText);
+            }
+        }
+
+        public string WarningText
+        {
+            get
+            {
+                return _warningText;
+            }
+            private set
+            {
+                if (string.Equals(_warningText, value ?? string.Empty, StringComparison.Ordinal))
+                {
+                    return;
+                }
+
+                _warningText = value ?? string.Empty;
+                OnPropertyChanged();
+                OnPropertyChanged(nameof(HasWarning));
+            }
+        }
+
+        public bool HasWarning
+        {
+            get
+            {
+                return !string.IsNullOrWhiteSpace(_warningText);
+            }
+        }
+
         private void RebuildEntries()
         {
-            var normalizedSearch = (searchText ?? string.Empty).Trim();
+            var normalizedSearch = (_searchText ?? string.Empty).Trim();
 
-            IEnumerable<LeveledSymbol> filtered = allCandidateSymbols;
+            IEnumerable<LeveledSymbol> filtered = _allCandidateSymbols;
 
             if (!string.IsNullOrWhiteSpace(normalizedSearch))
             {
@@ -170,7 +167,7 @@ namespace ClassHierarchyNavigator.UI
             {
                 TypeListBox.IsEnabled = false;
 
-                if (allCandidateSymbols.Count == 0)
+                if (_allCandidateSymbols.Count == 0)
                 {
                     StatusText = "No results.";
                 }
@@ -211,7 +208,7 @@ namespace ClassHierarchyNavigator.UI
                 return entries;
             }
 
-            if (navigationDirection == NavigationDirection.Base)
+            if (_navigationDirection == NavigationDirection.Base)
             {
                 var classChain = filteredSymbols
                     .Where(x => x.Symbol.TypeKind == TypeKind.Class)
@@ -231,7 +228,7 @@ namespace ClassHierarchyNavigator.UI
                 return entries;
             }
 
-            if (isTargetInterface)
+            if (_isTargetInterface)
             {
                 var derivedInterfaces = filteredSymbols.Where(x => x.Symbol.TypeKind == TypeKind.Interface).ToList();
                 var implementations = filteredSymbols.Where(x => x.Symbol.TypeKind != TypeKind.Interface).ToList();
@@ -354,7 +351,19 @@ namespace ClassHierarchyNavigator.UI
             SearchTextBox.Focus();
             Keyboard.Focus(SearchTextBox);
 
-            AnimateDirectionArrowRotation();
+            UpdateDirectionArrowImage();
+        }
+
+        private void UpdateDirectionArrowImage()
+        {
+            if (_navigationDirection == NavigationDirection.Base)
+            {
+                DirectionArrowImage.Source = new BitmapImage(_baseArrowUri);
+            }
+            else
+            {
+                DirectionArrowImage.Source = new BitmapImage(_derivedArrowUri);
+            }
         }
 
         private void AdjustWindowWidthToLongestItem(IReadOnlyList<TypeListEntry> entries)
@@ -425,29 +434,6 @@ namespace ClassHierarchyNavigator.UI
             Width = desiredWidth;
         }
 
-        private void AnimateDirectionArrowRotation()
-        {
-            double targetAngle;
-
-            if (navigationDirection == NavigationDirection.Base)
-            {
-                targetAngle = 0.0;
-            }
-            else
-            {
-                targetAngle = 180.0;
-            }
-
-            var animation = new DoubleAnimation
-            {
-                To = targetAngle,
-                Duration = TimeSpan.FromMilliseconds(140),
-                EasingFunction = new CubicEase { EasingMode = EasingMode.EaseOut }
-            };
-
-            DirectionArrowRotateTransform.BeginAnimation(RotateTransform.AngleProperty, animation);
-        }
-
         private void HandleListBoxMouseDoubleClick(object sender, MouseButtonEventArgs mouseButtonEventArguments)
         {
             CommitSelection();
@@ -475,55 +461,6 @@ namespace ClassHierarchyNavigator.UI
         private void OnPropertyChanged([CallerMemberName] string? propertyName = null)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
-
-        public abstract class TypeListEntry
-        {
-            public bool IsSelectable { get; }
-
-            protected TypeListEntry(bool isSelectable)
-            {
-                IsSelectable = isSelectable;
-            }
-        }
-
-        public sealed class GroupHeaderEntry : TypeListEntry
-        {
-            public string Title { get; }
-
-            public GroupHeaderEntry(string title)
-                : base(false)
-            {
-                Title = title ?? string.Empty;
-            }
-        }
-
-        public sealed class SymbolEntry : TypeListEntry
-        {
-            public LeveledSymbol Symbol { get; }
-
-            public string DisplayName { get; }
-
-            public string Details { get; }
-
-            public string KindGlyph { get; }
-
-            public Thickness IndentMargin { get; }
-
-            public SymbolEntry(
-                LeveledSymbol symbol,
-                string displayName,
-                string details,
-                string kindGlyph,
-                Thickness indentMargin)
-                : base(true)
-            {
-                Symbol = symbol;
-                DisplayName = displayName ?? string.Empty;
-                Details = details ?? string.Empty;
-                KindGlyph = kindGlyph ?? string.Empty;
-                IndentMargin = indentMargin;
-            }
         }
     }
 }

@@ -49,7 +49,7 @@ namespace ClassHierarchyNavigator.Navigation
                 await SymbolNavigationService.NavigateToTypeAsync(
                     workspace,
                     candidates[0],
-                    document.Project,
+                    document.Project.Solution.Projects,
                     cancellationToken);
 
                 return;
@@ -71,7 +71,7 @@ namespace ClassHierarchyNavigator.Navigation
                 await SymbolNavigationService.NavigateToTypeAsync(
                     workspace,
                     window.SelectedSymbol,
-                    document.Project,
+                    document.Project.Solution.Projects,
                     cancellationToken);
             }
         }

@@ -6,10 +6,8 @@ using Microsoft.VisualStudio.Shell;
 using Microsoft.VisualStudio.Shell.Interop;
 using System;
 using System.ComponentModel.Design;
-using System.Globalization;
 using System.Linq;
 using System.Threading;
-using System.Threading.Tasks;
 using Task = System.Threading.Tasks.Task;
 
 namespace ClassHierarchyNavigator
@@ -104,8 +102,6 @@ namespace ClassHierarchyNavigator
                 {
                     string message = ex.Message;
                     string title = "NavigateToDerivedCommand";
-
-                    // Show a message box to prove we were here
                     VsShellUtilities.ShowMessageBox(
                         this._package,
                         message,
