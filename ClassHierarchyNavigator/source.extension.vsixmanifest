@@ -2,11 +2,11 @@
 <PackageManifest Version="2.0.0" xmlns="http://schemas.microsoft.com/developer/vsx-schema/2011" xmlns:d="http://schemas.microsoft.com/developer/vsx-schema-design/2011">
     <Metadata>
         <Identity Id="ClassHierarchyNavigator.8f436bd0-c5bb-4507-82b0-e140ee949e29" Version="1.0.0" Language="en-US" Publisher="Csaba Kiss" />
-        <DisplayName>Class Hierarchy Navigator</DisplayName>
-        <Description xml:space="preserve">ClassHierarchyNavigator is a lightweight Visual Studio extension that lets you quickly navigate between base and derived types of the selected class or interface directly from the editor.</Description>
+        <DisplayName>Inheritance Navigator</DisplayName>
+        <Description xml:space="preserve">Inheritance Navigator is a lightweight Visual Studio extension that lets you quickly navigate between base and derived types of the selected class or interface directly from the editor.</Description>
         <Icon>Resources\logo.png</Icon>
         <PreviewImage>Resources\logo.png</PreviewImage>
-        <Tags>roslyn, navigation, productivity</Tags>
+        <Tags>roslyn, navigation, productivity, inheritance, navigator</Tags>
     </Metadata>
     <Installation>
         <InstallationTarget Id="Microsoft.VisualStudio.Community" Version="[17.0, 18.0)">
