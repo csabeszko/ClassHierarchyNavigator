@@ -56,6 +56,7 @@
         <Parent guid="guidClassHierarchyNavigatorPackageCmdSet" id="MyMenuGroup" />
         <Icon guid="guidImages" id="bmpPic1" />
         <Strings>
+          <CommandName>InheritanceNavigator.NavigateToBase</CommandName>
           <ButtonText>Invoke NavigateToBaseCommand</ButtonText>
         </Strings>
       </Button>
@@ -63,6 +64,7 @@
         <Parent guid="guidClassHierarchyNavigatorPackageCmdSet" id="MyMenuGroup" />
         <Icon guid="guidImages1" id="bmpPic1" />
         <Strings>
+          <CommandName>InheritanceNavigator.NavigateToDerived</CommandName>
           <ButtonText>Invoke NavigateToDerivedCommand</ButtonText>
         </Strings>
       </Button>
