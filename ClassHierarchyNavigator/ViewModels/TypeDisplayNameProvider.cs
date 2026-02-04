@@ -1,6 +1,6 @@
 ﻿using Microsoft.CodeAnalysis;
 
-namespace ClassHierarchyNavigator.UI
+namespace ClassHierarchyNavigator.ViewModels
 {
     public static class TypeDisplayNameProvider
     {

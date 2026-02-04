@@ -57,14 +57,21 @@
     <Compile Include="Services\DerivedTypeProvider.cs" />
     <Compile Include="Services\SymbolNavigationService.cs" />
     <Compile Include="Services\TypeSymbolLocator.cs" />
-    <Compile Include="UI\GroupHeaderEntry.cs" />
-    <Compile Include="UI\SymbolEntry.cs" />
-    <Compile Include="UI\TypeDisplayNameProvider.cs" />
-    <Compile Include="UI\TypeListEntry.cs" />
+    <Compile Include="UI\ListBoxInputBehaviors.cs" />
     <Compile Include="UI\TypeSelectionWindow.xaml.cs">
       <DependentUpon>TypeSelectionWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="UI\WindowKeyRoutingBehaviors.cs" />
     <Compile Include="UI\WindowPositionHelper.cs" />
+    <Compile Include="UI\WindowWidthBehaviors.cs" />
+    <Compile Include="ViewModels\DelegateCommand.cs" />
+    <Compile Include="ViewModels\DelegateCommandWithParameter.cs" />
+    <Compile Include="ViewModels\GroupHeaderEntry.cs" />
+    <Compile Include="ViewModels\SymbolEntry.cs" />
+    <Compile Include="ViewModels\TypeDisplayNameProvider.cs" />
+    <Compile Include="ViewModels\TypeListEntry.cs" />
+    <Compile Include="ViewModels\TypeSelectionCloseRequest.cs" />
+    <Compile Include="ViewModels\TypeSelectionViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="source.extension.vsixmanifest">
