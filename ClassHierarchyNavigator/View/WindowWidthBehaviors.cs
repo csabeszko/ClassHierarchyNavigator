@@ -6,7 +6,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 
-namespace ClassHierarchyNavigator.UI
+namespace ClassHierarchyNavigator.View
 {
     public static class WindowWidthBehaviors
     {

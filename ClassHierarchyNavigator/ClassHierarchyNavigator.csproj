@@ -57,13 +57,13 @@
     <Compile Include="Services\DerivedTypeProvider.cs" />
     <Compile Include="Services\SymbolNavigationService.cs" />
     <Compile Include="Services\TypeSymbolLocator.cs" />
-    <Compile Include="UI\ListBoxInputBehaviors.cs" />
-    <Compile Include="UI\TypeSelectionWindow.xaml.cs">
+    <Compile Include="View\ListBoxInputBehaviors.cs" />
+    <Compile Include="View\TypeSelectionWindow.xaml.cs">
       <DependentUpon>TypeSelectionWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="UI\WindowKeyRoutingBehaviors.cs" />
-    <Compile Include="UI\WindowPositionHelper.cs" />
-    <Compile Include="UI\WindowWidthBehaviors.cs" />
+    <Compile Include="View\WindowKeyRoutingBehaviors.cs" />
+    <Compile Include="View\WindowPositionHelper.cs" />
+    <Compile Include="View\WindowWidthBehaviors.cs" />
     <Compile Include="ViewModels\DelegateCommand.cs" />
     <Compile Include="ViewModels\DelegateCommandWithParameter.cs" />
     <Compile Include="ViewModels\GroupHeaderEntry.cs" />
@@ -121,16 +121,14 @@
     </VSCTCompile>
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Resources\down.png" />
+    <Resource Include="Resources\up16.png" />
+    <Resource Include="Resources\down16.png" />
     <Content Include="Resources\logo.png">
       <IncludeInVSIX>true</IncludeInVSIX>
     </Content>
-    <Content Include="Resources\NavigateToBaseCommand.png" />
-    <Content Include="Resources\NavigateToDerivedCommand.png" />
-    <Resource Include="Resources\up.png" />
   </ItemGroup>
   <ItemGroup>
-    <Page Include="UI\TypeSelectionWindow.xaml">
+    <Page Include="View\TypeSelectionWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

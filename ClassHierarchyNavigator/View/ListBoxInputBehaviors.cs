@@ -2,7 +2,7 @@
 using System.Windows.Controls;
 using System.Windows.Input;
 
-namespace ClassHierarchyNavigator.UI
+namespace ClassHierarchyNavigator.View
 {
     public static class ListBoxInputBehaviors
     {

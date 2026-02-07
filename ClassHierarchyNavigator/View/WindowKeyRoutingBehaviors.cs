@@ -1,7 +1,7 @@
 ﻿using System.Windows;
 using System.Windows.Input;
 
-namespace ClassHierarchyNavigator.UI
+namespace ClassHierarchyNavigator.View
 {
     public static class WindowKeyRoutingBehaviors
     {

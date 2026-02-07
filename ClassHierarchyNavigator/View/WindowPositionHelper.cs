@@ -2,7 +2,7 @@
 using System.Windows;
 using System.Windows.Interop;
 
-namespace ClassHierarchyNavigator.UI
+namespace ClassHierarchyNavigator.View
 {
     public static class WindowPositionHelper
     {

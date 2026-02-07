@@ -15,8 +15,8 @@ namespace ClassHierarchyNavigator.ViewModels
 {
     public sealed class TypeSelectionViewModel : INotifyPropertyChanged
     {
-        private static readonly Uri BaseArrowUri = new Uri("pack://application:,,,/ClassHierarchyNavigator;component/Resources/up.png", UriKind.Absolute);
-        private static readonly Uri DerivedArrowUri = new Uri("pack://application:,,,/ClassHierarchyNavigator;component/Resources/down.png", UriKind.Absolute);
+        private static readonly Uri BaseArrowUri = new Uri("pack://application:,,,/ClassHierarchyNavigator;component/Resources/up16.png", UriKind.Absolute);
+        private static readonly Uri DerivedArrowUri = new Uri("pack://application:,,,/ClassHierarchyNavigator;component/Resources/down16.png", UriKind.Absolute);
 
         private readonly NavigationDirection _navigationDirection;
         private readonly IReadOnlyList<LeveledSymbol> _allCandidateSymbols;
@@ -48,8 +48,8 @@ namespace ClassHierarchyNavigator.ViewModels
             DirectionArrowSource = new BitmapImage(direction == NavigationDirection.Base ? BaseArrowUri : DerivedArrowUri);
 
             _searchText = string.Empty;
-            this._warningText = warningText ?? string.Empty;
-            this._statusText = statusText ?? string.Empty;
+            _warningText = warningText ?? string.Empty;
+            _statusText = statusText ?? string.Empty;
 
             Entries = new ObservableCollection<TypeListEntry>();
 
@@ -118,10 +118,7 @@ namespace ClassHierarchyNavigator.ViewModels
             }
         }
 
-        public bool HasStatus
-        {
-            get { return !string.IsNullOrWhiteSpace(_statusText); }
-        }
+        public bool HasStatus => !string.IsNullOrWhiteSpace(_statusText);
 
         public string WarningText
         {
@@ -140,15 +137,9 @@ namespace ClassHierarchyNavigator.ViewModels
             }
         }
 
-        public bool HasWarning
-        {
-            get { return !string.IsNullOrWhiteSpace(_warningText); }
-        }
+        public bool HasWarning => !string.IsNullOrWhiteSpace(_warningText);
 
-        public bool HasSelectableEntries
-        {
-            get { return Entries.OfType<SymbolEntry>().Any(); }
-        }
+        public bool HasSelectableEntries => Entries.OfType<SymbolEntry>().Any();
 
         public TypeListEntry? SelectedEntry
         {

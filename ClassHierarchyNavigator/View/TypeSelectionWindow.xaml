@@ -1,11 +1,13 @@
-﻿<Window x:Class="ClassHierarchyNavigator.UI.TypeSelectionWindow"
+﻿<Window x:Class="ClassHierarchyNavigator.View.TypeSelectionWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:local="clr-namespace:ClassHierarchyNavigator.UI"
+        xmlns:local="clr-namespace:ClassHierarchyNavigator.View"
         xmlns:viewModels="clr-namespace:ClassHierarchyNavigator.ViewModels"
+        xmlns:themes="clr-namespace:Microsoft.VisualStudio.Shell;assembly=Microsoft.VisualStudio.Shell.15.0"
         local:WindowKeyRoutingBehaviors.PreviewKeyDownCommand="{Binding PreviewKeyDownCommand}"
         Width="{Binding WindowWidth}"
-        MinWidth="420"
+        MinWidth="300"
+        MaxWidth="500"
         Height="Auto"
         SizeToContent="Height"
         WindowStyle="None"
@@ -37,21 +39,16 @@
                         <Grid Background="Transparent">
                             <Track x:Name="PART_Track" IsDirectionReversed="True">
                                 <Track.DecreaseRepeatButton>
-                                    <RepeatButton Command="ScrollBar.LineUpCommand"
-                                Opacity="0"
-                                Focusable="False"
-                                IsTabStop="False" />
+                                    <RepeatButton Command="ScrollBar.LineUpCommand" Opacity="0" Focusable="False" IsTabStop="False" />
                                 </Track.DecreaseRepeatButton>
                                 <Track.Thumb>
-                                    <Thumb Background="#5AFFFFFF"
-                         BorderBrush="#22000000"
-                         BorderThickness="1" />
+                                    <Thumb
+                    Background="{DynamicResource {x:Static themes:VsBrushes.ScrollBarThumbBackgroundKey}}"
+                    BorderBrush="{DynamicResource {x:Static themes:VsBrushes.ScrollBarThumbBorderKey}}"
+                    BorderThickness="1" />
                                 </Track.Thumb>
                                 <Track.IncreaseRepeatButton>
-                                    <RepeatButton Command="ScrollBar.LineDownCommand"
-                                Opacity="0"
-                                Focusable="False"
-                                IsTabStop="False" />
+                                    <RepeatButton Command="ScrollBar.LineDownCommand" Opacity="0" Focusable="False" IsTabStop="False" />
                                 </Track.IncreaseRepeatButton>
                             </Track>
                         </Grid>
@@ -64,10 +61,11 @@
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="{x:Type Thumb}">
-                        <Border Background="{TemplateBinding Background}"
-                    BorderBrush="{TemplateBinding BorderBrush}"
-                    BorderThickness="{TemplateBinding BorderThickness}"
-                    CornerRadius="4" />
+                        <Border
+              Background="{TemplateBinding Background}"
+              BorderBrush="{TemplateBinding BorderBrush}"
+              BorderThickness="{TemplateBinding BorderThickness}"
+              CornerRadius="4" />
                     </ControlTemplate>
                 </Setter.Value>
             </Setter>
@@ -106,7 +104,9 @@
 
     <Border CornerRadius="6"
           Padding="10"
-          Background="#CC1E1E1E">
+          Background="{DynamicResource {x:Static themes:VsBrushes.ToolWindowBackgroundKey}}"
+          BorderBrush="{DynamicResource {x:Static themes:VsBrushes.ToolWindowBorderKey}}"
+          BorderThickness="1">
 
         <Grid>
             <Grid.RowDefinitions>
@@ -126,7 +126,7 @@
                 <TextBlock Grid.Column="0"
                    FontSize="15"
                    FontWeight="SemiBold"
-                   Foreground="#F0F0F0"
+                   Foreground="{DynamicResource {x:Static themes:VsBrushes.ToolWindowTextKey}}"
                    Text="{Binding HeaderText}"
                    TextTrimming="CharacterEllipsis" />
 
@@ -138,28 +138,51 @@
                RenderTransformOrigin="0.5,0.5" />
             </Grid>
 
-            <TextBox x:Name="SearchTextBox"
-               Grid.Row="1"
-               Height="26"
-               Margin="0,0,0,8"
-               Padding="8,3"
-               Background="#AA252526"
-               Foreground="#F0F0F0"
-               BorderBrush="#55303030"
-               BorderThickness="1"
-               CaretBrush="#F0F0F0"
-               Text="{Binding SearchText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-               ToolTip="Type to filter" />
+            <Grid Grid.Row="1" Margin="0,0,0,8">
+                <TextBox x:Name="SearchTextBox"
+                    Height="26"
+                    Padding="8,3"
+                    Background="{DynamicResource {x:Static themes:VsBrushes.ToolWindowBackgroundKey}}"
+                    Foreground="{DynamicResource {x:Static themes:VsBrushes.ToolWindowTextKey}}"
+                    BorderBrush="{DynamicResource {x:Static themes:VsBrushes.ToolWindowBorderKey}}"
+                    BorderThickness="1"
+                    CaretBrush="{DynamicResource {x:Static themes:VsBrushes.ToolWindowTextKey}}"
+                    Text="{Binding SearchText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+
+                <TextBlock Text="search type…"
+                   Margin="15,0,0,0"
+                   VerticalAlignment="Center"
+                   IsHitTestVisible="False"
+                   FontStyle="Italic"
+                   Opacity="0.7"
+                   Foreground="{DynamicResource {x:Static themes:VsBrushes.GrayTextKey}}">
+                    <TextBlock.RenderTransform>
+                        <SkewTransform AngleX="-5" />
+                    </TextBlock.RenderTransform>
+
+                    <TextBlock.Style>
+                        <Style TargetType="TextBlock">
+                            <Setter Property="Visibility" Value="Collapsed" />
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding Text, ElementName=SearchTextBox}" Value="">
+                                    <Setter Property="Visibility" Value="Visible" />
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </TextBlock.Style>
+                </TextBlock>
+            </Grid>
+
 
             <Border Grid.Row="2"
               Margin="0,0,0,8"
               CornerRadius="4"
-              Background="#33F6C177"
-              BorderBrush="#55F6C177"
+              Background="{DynamicResource {x:Static themes:VsBrushes.InfoBackgroundKey}}"
+              BorderBrush="{DynamicResource {x:Static themes:VsBrushes.InfoTextKey}}"
               BorderThickness="1"
               Padding="8,6"
               Visibility="{Binding HasWarning, Converter={StaticResource BooleanToVisibilityConverter}}">
-                <TextBlock Foreground="#EAEAEA"
+                <TextBlock Foreground="{DynamicResource {x:Static themes:VsBrushes.InfoTextKey}}"
                    FontSize="12"
                    TextWrapping="Wrap"
                    Text="{Binding WarningText}" />
@@ -171,9 +194,9 @@
                SelectedItem="{Binding SelectedEntry, Mode=TwoWay}"
                IsEnabled="{Binding HasSelectableEntries}"
                HorizontalContentAlignment="Stretch"
-               Background="#AA252526"
-               Foreground="#F0F0F0"
-               BorderBrush="#55303030"
+               Background="{DynamicResource {x:Static themes:VsBrushes.ToolWindowBackgroundKey}}"
+               Foreground="{DynamicResource {x:Static themes:VsBrushes.ToolWindowTextKey}}"
+               BorderBrush="{DynamicResource {x:Static themes:VsBrushes.ToolWindowBorderKey}}"
                BorderThickness="1"
                MaxHeight="320"
                IsTabStop="True"
@@ -188,10 +211,13 @@
                     <Style TargetType="{x:Type ScrollViewer}" BasedOn="{StaticResource ThemedScrollViewerStyle}" />
 
                     <DataTemplate DataType="{x:Type viewModels:GroupHeaderEntry}">
-                        <Border Padding="6,6" Background="#221A1A1A">
+                        <Border Padding="6,6"
+                    Background="{DynamicResource {x:Static themes:VsBrushes.ToolWindowBackgroundKey}}"
+                    BorderBrush="{DynamicResource {x:Static themes:VsBrushes.ToolWindowBorderKey}}"
+                    BorderThickness="0,0,0,1">
                             <TextBlock Text="{Binding Title}"
                          FontWeight="SemiBold"
-                         Foreground="#D6D6D6"
+                         Foreground="{DynamicResource {x:Static themes:VsBrushes.ToolWindowTextKey}}"
                          FontSize="12" />
                         </Border>
                     </DataTemplate>
@@ -208,14 +234,14 @@
                       Height="18"
                       CornerRadius="4"
                       Margin="{Binding IndentMargin}"
-                      Background="#22303030"
-                      BorderBrush="#55303030"
+                      Background="{DynamicResource {x:Static themes:VsBrushes.ToolWindowBackgroundKey}}"
+                      BorderBrush="{DynamicResource {x:Static themes:VsBrushes.ToolWindowBorderKey}}"
                       BorderThickness="1"
                       VerticalAlignment="Center">
                                 <TextBlock Text="{Binding KindGlyph}"
                            HorizontalAlignment="Center"
                            VerticalAlignment="Center"
-                           Foreground="#EAEAEA"
+                           Foreground="{DynamicResource {x:Static themes:VsBrushes.ToolWindowTextKey}}"
                            FontSize="10"
                            FontWeight="SemiBold" />
                             </Border>
@@ -223,10 +249,13 @@
                             <TextBlock Grid.Column="1"
                          Margin="8,0,6,0"
                          VerticalAlignment="Center"
-                         TextTrimming="CharacterEllipsis">
+                         TextTrimming="CharacterEllipsis"
+                         Foreground="{DynamicResource {x:Static themes:VsBrushes.ToolWindowTextKey}}">
                 <Run Text="{Binding DisplayName, Mode=OneWay}" />
                 <Run Text="  " />
-                <Run Text="{Binding Details, Mode=OneWay}" Foreground="#B0B0B0" FontSize="11" />
+                <Run Text="{Binding Details, Mode=OneWay}"
+                     Foreground="{DynamicResource {x:Static themes:VsBrushes.ControlLinkTextKey}}"
+                     FontSize="11" />
                             </TextBlock>
                         </Grid>
                     </DataTemplate>
@@ -235,15 +264,16 @@
                 <ListBox.ItemContainerStyle>
                     <Style TargetType="ListBoxItem">
                         <Setter Property="Background" Value="Transparent" />
-                        <Setter Property="Foreground" Value="#F0F0F0" />
+                        <Setter Property="Foreground" Value="{DynamicResource {x:Static themes:VsBrushes.ToolWindowTextKey}}" />
                         <Setter Property="Padding" Value="0" />
                         <Setter Property="HorizontalContentAlignment" Value="Stretch" />
                         <Style.Triggers>
                             <Trigger Property="IsSelected" Value="True">
-                                <Setter Property="Background" Value="#664A90E2" />
+                                <Setter Property="Background" Value="{DynamicResource {x:Static themes:VsBrushes.HighlightKey}}" />
+                                <Setter Property="Foreground" Value="{DynamicResource {x:Static themes:VsBrushes.HighlightTextKey}}" />
                             </Trigger>
                             <Trigger Property="IsMouseOver" Value="True">
-                                <Setter Property="Background" Value="#333A3D41" />
+                                <Setter Property="Background" Value="{DynamicResource {x:Static themes:VsBrushes.HighlightKey}}" />
                             </Trigger>
                             <DataTrigger Binding="{Binding IsSelectable}" Value="False">
                                 <Setter Property="Focusable" Value="False" />
@@ -257,7 +287,7 @@
 
             <TextBlock Grid.Row="4"
                  Margin="0,8,0,0"
-                 Foreground="#BDBDBD"
+                 Foreground="{DynamicResource {x:Static themes:VsBrushes.ToolWindowTextKey}}"
                  FontSize="12"
                  Text="{Binding StatusText}"
                  Visibility="{Binding HasStatus, Converter={StaticResource BooleanToVisibilityConverter}}" />

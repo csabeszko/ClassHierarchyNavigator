@@ -1,6 +1,6 @@
 ﻿using ClassHierarchyNavigator.Models;
 using ClassHierarchyNavigator.Services;
-using ClassHierarchyNavigator.UI;
+using ClassHierarchyNavigator.View;
 using Microsoft.CodeAnalysis;
 using Microsoft.VisualStudio.LanguageServices;
 using Microsoft.VisualStudio.Shell;

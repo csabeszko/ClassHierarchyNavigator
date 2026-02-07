@@ -5,7 +5,7 @@ using Microsoft.CodeAnalysis;
 using System.Collections.Generic;
 using System.Windows;
 
-namespace ClassHierarchyNavigator.UI
+namespace ClassHierarchyNavigator.View
 {
     public partial class TypeSelectionWindow : Window
     {
