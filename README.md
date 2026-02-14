@@ -95,7 +95,7 @@ Designed for fast, mouse-free usage.
 
 ## Demo
 
-![Inheritance Navigator Demo](Resources/demo.gif)
+![Inheritance Navigator Demo](https://github.com/csabeszko/ClassHierarchyNavigator/blob/master/ClassHierarchyNavigator/Resources/demo.gif)
 
 ------------------------------------------------------------------------
 
