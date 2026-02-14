@@ -6,6 +6,8 @@ quickly and efficiently.
 Jump to base types or derived types directly from the current caret
 position using a clean popup selector window.
 
+![Inheritance Navigator Demo](https://github.com/csabeszko/ClassHierarchyNavigator/blob/master/ClassHierarchyNavigator/Resources/demo.gif)
+
 ------------------------------------------------------------------------
 
 ## Features
@@ -90,12 +92,6 @@ If existing bindings remain, the extension may not trigger correctly.
 -   `Escape` → Close window
 
 Designed for fast, mouse-free usage.
-
-------------------------------------------------------------------------
-
-## Demo
-
-![Inheritance Navigator Demo](https://github.com/csabeszko/ClassHierarchyNavigator/blob/master/ClassHierarchyNavigator/Resources/demo.gif)
 
 ------------------------------------------------------------------------
 
