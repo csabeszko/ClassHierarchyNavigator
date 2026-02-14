@@ -54,7 +54,7 @@ You must manually assign keyboard shortcuts in Visual Studio.
 
 2.  In **Show commands containing**, search for:
 
-    Tools.NavigatetoBaseType
+    Tools.NavigatetoBaseType\
     Tools.NavigatetoDerivedType
 
 3.  Assign your preferred shortcuts (recommended):
@@ -76,7 +76,7 @@ For `Alt + Home` and `Alt + End` to work correctly, you must:
 Only after removing all existing mappings should you assign these
 shortcuts to:
 
-Tools.NavigatetoBaseType
+Tools.NavigatetoBaseType\
 Tools.NavigatetoDerivedType
 
 If existing bindings remain, the extension may not trigger correctly.
