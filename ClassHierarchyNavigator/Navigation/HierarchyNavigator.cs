@@ -62,7 +62,7 @@ namespace ClassHierarchyNavigator.Navigation
 
             var window = new TypeSelectionWindow(candidates, direction, typeSymbol, warningText, statusText);
 
-            WindowPositionHelper.CenterOnCurrentMonitor(window);
+            WindowPositionHelper.CenterOnVisualStudio(window);
 
             var result = window.ShowDialog();
 

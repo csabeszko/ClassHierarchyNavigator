@@ -22,9 +22,13 @@ namespace ClassHierarchyNavigator.ViewModels
         }
 
         public LeveledSymbol Symbol { get; }
+
         public string DisplayName { get; }
+
         public string Details { get; }
+
         public string KindGlyph { get; }
+
         public Thickness IndentMargin { get; }
 
         public static SymbolEntry Create(LeveledSymbol leveledSymbol)

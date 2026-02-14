@@ -7,24 +7,25 @@
   <Commands package="guidClassHierarchyNavigatorPackage">
 
     <Groups>
+      
       <Group guid="guidClassHierarchyNavigatorPackageCmdSet" id="ToolsMenuGroup" priority="0x0600">
         <Parent guid="guidSHLMainMenu" id="IDM_VS_MENU_TOOLS" />
       </Group>
+      
     </Groups>
 
     <Buttons>
       <Button guid="guidClassHierarchyNavigatorPackageCmdSet" id="NavigateToBaseCommandId" priority="0x0100" type="Button">
         <Parent guid="guidClassHierarchyNavigatorPackageCmdSet" id="ToolsMenuGroup" />
-        <Icon guid="guidImages" id="bmpNavigateBase" />
+        <Icon guid="guidImagesUp" id="bmpNavigateBase" />
         <Strings>
           <CommandName>InheritanceNavigator.NavigateToBase</CommandName>
           <ButtonText>Navigate to Base Type</ButtonText>
         </Strings>
       </Button>
-
-      <Button guid="guidClassHierarchyNavigatorPackageCmdSet" id="cmdidNavigateToDerivedCommand" priority="0x0101" type="Button">
+      <Button guid="guidClassHierarchyNavigatorPackageCmdSet" id="NavigateToDerivedCommandId" priority="0x0101" type="Button">
         <Parent guid="guidClassHierarchyNavigatorPackageCmdSet" id="ToolsMenuGroup" />
-        <Icon guid="guidImages1" id="bmpNavigateDerived" />
+        <Icon guid="guidImagesDown" id="bmpNavigateDerived" />
         <Strings>
           <CommandName>InheritanceNavigator.NavigateToDerived</CommandName>
           <ButtonText>Navigate to Derived Type</ButtonText>
@@ -33,42 +34,25 @@
     </Buttons>
 
     <Bitmaps>
-      <Bitmap guid="guidImages" href="..\Resources\up16.png" usedList="bmpNavigateBase" />
-      <Bitmap guid="guidImages1" href="..\Resources\down16.png" usedList="bmpNavigateDerived" />
+      <Bitmap guid="guidImagesUp" href="..\Resources\up16.png" usedList="bmpNavigateBase" />
+      <Bitmap guid="guidImagesDown" href="..\Resources\down16.png" usedList="bmpNavigateDerived" />
     </Bitmaps>
 
   </Commands>
 
   <Symbols>
     <GuidSymbol name="guidClassHierarchyNavigatorPackage" value="{fa53d12f-084b-4624-98fa-915c486bb2c9}" />
-
     <GuidSymbol name="guidClassHierarchyNavigatorPackageCmdSet" value="{e7a05e4b-4166-49b3-b0dc-b48bf11304b2}">
       <IDSymbol name="ToolsMenuGroup" value="0x1020" />
       <IDSymbol name="NavigateToBaseCommandId" value="0x0100" />
-      <IDSymbol name="cmdidNavigateToDerivedCommand" value="0x0101" />
+      <IDSymbol name="NavigateToDerivedCommandId" value="0x0101" />
     </GuidSymbol>
-
-    <GuidSymbol name="guidImages" value="{720d7941-d750-40ce-baba-c9bf0b29912a}">
+    <GuidSymbol name="guidImagesUp" value="{720d7941-d750-40ce-baba-c9bf0b29912a}">
       <IDSymbol name="bmpNavigateBase" value="1" />
     </GuidSymbol>
-
-    <GuidSymbol name="guidImages1" value="{a399d3aa-a9df-41c7-ae5d-545f1581c330}">
+    <GuidSymbol name="guidImagesDown" value="{a399d3aa-a9df-41c7-ae5d-545f1581c330}">
       <IDSymbol name="bmpNavigateDerived" value="1" />
     </GuidSymbol>
   </Symbols>
-
-  <KeyBindings>
-    <KeyBinding guid="guidClassHierarchyNavigatorPackageCmdSet"
-                id="NavigateToBaseCommandId"
-                editor="guidVSStd97"
-                key1="VK_HOME"
-                mod1="ALT" />
-
-    <KeyBinding guid="guidClassHierarchyNavigatorPackageCmdSet"
-                id="cmdidNavigateToDerivedCommand"
-                editor="guidVSStd97"
-                key1="VK_END"
-                mod1="ALT" />
-  </KeyBindings>
 
 </CommandTable>

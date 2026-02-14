@@ -46,6 +46,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="Commands\AbstractNavigateCommand.cs" />
     <Compile Include="Commands\NavigateToBaseCommand.cs" />
     <Compile Include="Commands\NavigateToDerivedCommand.cs" />
     <Compile Include="Models\LeveledSymbol.cs" />
@@ -55,9 +56,11 @@
     <Compile Include="ClassHierarchyNavigatorPackage.cs" />
     <Compile Include="Services\BaseTypeProvider.cs" />
     <Compile Include="Services\DerivedTypeProvider.cs" />
+    <Compile Include="Services\EnumExtensions.cs" />
     <Compile Include="Services\SymbolNavigationService.cs" />
     <Compile Include="Services\TypeSymbolLocator.cs" />
     <Compile Include="View\ListBoxInputBehaviors.cs" />
+    <Compile Include="View\ListBoxScrollIntoViewBehaviors.cs" />
     <Compile Include="View\TypeSelectionWindow.xaml.cs">
       <DependentUpon>TypeSelectionWindow.xaml</DependentUpon>
     </Compile>
