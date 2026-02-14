@@ -95,7 +95,7 @@ Designed for fast, mouse-free usage.
 
 ## Demo
 
-![Demo](docs/demo.gif)
+![Inheritance Navigator Demo](Resources/demo.gif)
 
 ------------------------------------------------------------------------
 

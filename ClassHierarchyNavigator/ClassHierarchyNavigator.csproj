@@ -126,6 +126,7 @@
   <ItemGroup>
     <Resource Include="Resources\up16.png" />
     <Resource Include="Resources\down16.png" />
+    <Content Include="Resources\demo.gif" />
     <Content Include="Resources\logo.png">
       <IncludeInVSIX>true</IncludeInVSIX>
     </Content>
