@@ -39,7 +39,7 @@
                         <Grid Background="Transparent">
                             <Track x:Name="PART_Track" IsDirectionReversed="True">
                                 <Track.DecreaseRepeatButton>
-                                    <RepeatButton Command="ScrollBar.LineUpCommand" Opacity="0" Focusable="False" IsTabStop="False" />
+                                    <RepeatButton Command="ScrollBar.PageUpCommand" Opacity="0" Focusable="False" IsTabStop="False" />
                                 </Track.DecreaseRepeatButton>
                                 <Track.Thumb>
                                     <Thumb
@@ -48,7 +48,7 @@
                     BorderThickness="1" />
                                 </Track.Thumb>
                                 <Track.IncreaseRepeatButton>
-                                    <RepeatButton Command="ScrollBar.LineDownCommand" Opacity="0" Focusable="False" IsTabStop="False" />
+                                    <RepeatButton Command="ScrollBar.PageDownCommand" Opacity="0" Focusable="False" IsTabStop="False" />
                                 </Track.IncreaseRepeatButton>
                             </Track>
                         </Grid>
