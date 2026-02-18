@@ -8,13 +8,13 @@ using System.Windows.Media;
 
 namespace ClassHierarchyNavigator.View
 {
-    public static class WindowWidthBehaviors
+    public static class WindowWidthBehavior
     {
         public static readonly DependencyProperty IsEnabledProperty =
           DependencyProperty.RegisterAttached(
             "IsEnabled",
             typeof(bool),
-            typeof(WindowWidthBehaviors),
+            typeof(WindowWidthBehavior),
             new PropertyMetadata(false, HandleIsEnabledChanged));
 
         public static bool GetIsEnabled(DependencyObject dependencyObject)

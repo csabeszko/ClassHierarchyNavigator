@@ -5,13 +5,13 @@ using System.Windows.Threading;
 
 namespace ClassHierarchyNavigator.View
 {
-    public static class ListBoxScrollIntoViewBehaviors
+    public static class ListBoxScrollIntoViewBehavior
     {
         public static readonly DependencyProperty IsEnabledProperty =
             DependencyProperty.RegisterAttached(
                 "IsEnabled",
                 typeof(bool),
-                typeof(ListBoxScrollIntoViewBehaviors),
+                typeof(ListBoxScrollIntoViewBehavior),
                 new PropertyMetadata(false, HandleIsEnabledChanged));
 
         public static bool GetIsEnabled(DependencyObject dependencyObject)

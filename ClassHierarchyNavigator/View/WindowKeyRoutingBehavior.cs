@@ -3,13 +3,13 @@ using System.Windows.Input;
 
 namespace ClassHierarchyNavigator.View
 {
-    public static class WindowKeyRoutingBehaviors
+    public static class WindowKeyRoutingBehavior
     {
         public static readonly DependencyProperty PreviewKeyDownCommandProperty =
           DependencyProperty.RegisterAttached(
             "PreviewKeyDownCommand",
             typeof(ICommand),
-            typeof(WindowKeyRoutingBehaviors),
+            typeof(WindowKeyRoutingBehavior),
             new PropertyMetadata(null, HandlePreviewKeyDownCommandChanged));
 
         public static ICommand? GetPreviewKeyDownCommand(DependencyObject dependencyObject)

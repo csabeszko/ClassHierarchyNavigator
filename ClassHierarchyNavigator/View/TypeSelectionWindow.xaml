@@ -4,7 +4,7 @@
         xmlns:local="clr-namespace:ClassHierarchyNavigator.View"
         xmlns:viewModels="clr-namespace:ClassHierarchyNavigator.ViewModels"
         xmlns:themes="clr-namespace:Microsoft.VisualStudio.Shell;assembly=Microsoft.VisualStudio.Shell.15.0"
-        local:WindowKeyRoutingBehaviors.PreviewKeyDownCommand="{Binding PreviewKeyDownCommand}"
+        local:WindowKeyRoutingBehavior.PreviewKeyDownCommand="{Binding PreviewKeyDownCommand}"
         Width="{Binding WindowWidth}"
         MinWidth="300"
         MaxWidth="500"
@@ -72,6 +72,7 @@
         </Style>
 
         <Style x:Key="ThemedScrollViewerStyle" TargetType="{x:Type ScrollViewer}">
+            <Setter Property="local:ScrollViewerScrollBarSyncBehavior.IsEnabled" Value="True" />
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="{x:Type ScrollViewer}">
@@ -81,25 +82,27 @@
                                 <ColumnDefinition Width="Auto" />
                             </Grid.ColumnDefinitions>
 
-                            <ScrollContentPresenter Grid.Column="0"
-                                      Margin="{TemplateBinding Padding}"
-                                      ContentTemplate="{TemplateBinding ContentTemplate}"
-                                      Content="{TemplateBinding Content}"
-                                      CanContentScroll="{TemplateBinding CanContentScroll}" />
+                            <ScrollContentPresenter
+                        x:Name="PART_ScrollContentPresenter"
+                        Grid.Column="0"
+                        Margin="{TemplateBinding Padding}"
+                        ContentTemplate="{TemplateBinding ContentTemplate}"
+                        Content="{TemplateBinding Content}"
+                        CanContentScroll="{TemplateBinding CanContentScroll}" />
 
-                            <ScrollBar Grid.Column="1"
-                         Orientation="Vertical"
-                         Minimum="0"
-                         Maximum="{TemplateBinding ScrollableHeight}"
-                         ViewportSize="{TemplateBinding ViewportHeight}"
-                         Value="{TemplateBinding VerticalOffset}"
-                         Visibility="{TemplateBinding ComputedVerticalScrollBarVisibility}"
-                         Style="{StaticResource VerticalScrollBarStyle}" />
+                            <ScrollBar
+                        x:Name="PART_VerticalScrollBar"
+                        Grid.Column="1"
+                        Orientation="Vertical"
+                        Visibility="{TemplateBinding ComputedVerticalScrollBarVisibility}"
+                        Style="{StaticResource VerticalScrollBarStyle}" />
                         </Grid>
                     </ControlTemplate>
                 </Setter.Value>
             </Setter>
         </Style>
+
+
     </Window.Resources>
 
     <Border CornerRadius="6"
@@ -192,7 +195,7 @@
              Grid.Row="3"
              ItemsSource="{Binding Entries}"
              SelectedItem="{Binding SelectedEntry, Mode=TwoWay}"
-             local:ListBoxScrollIntoViewBehaviors.IsEnabled="True"
+             local:ListBoxScrollIntoViewBehavior.IsEnabled="True"
              ScrollViewer.CanContentScroll="True"
              VirtualizingPanel.IsVirtualizing="True"
              VirtualizingPanel.VirtualizationMode="Recycling"
@@ -208,8 +211,8 @@
              KeyboardNavigation.DirectionalNavigation="Contained"
              ScrollViewer.HorizontalScrollBarVisibility="Disabled"
              ScrollViewer.VerticalScrollBarVisibility="Auto"
-             local:ListBoxInputBehaviors.DoubleClickCommand="{Binding AcceptCommand}"
-             local:WindowWidthBehaviors.IsEnabled="True">
+             local:ListBoxInputBehavior.DoubleClickCommand="{Binding AcceptCommand}"
+             local:WindowWidthBehavior.IsEnabled="True">
 
                 <ListBox.Resources>
                     <Style TargetType="{x:Type ScrollViewer}" BasedOn="{StaticResource ThemedScrollViewerStyle}" />

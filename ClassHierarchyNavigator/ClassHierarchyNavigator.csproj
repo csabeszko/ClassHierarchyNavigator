@@ -59,14 +59,16 @@
     <Compile Include="Services\EnumExtensions.cs" />
     <Compile Include="Services\SymbolNavigationService.cs" />
     <Compile Include="Services\TypeSymbolLocator.cs" />
-    <Compile Include="View\ListBoxInputBehaviors.cs" />
-    <Compile Include="View\ListBoxScrollIntoViewBehaviors.cs" />
+    <Compile Include="View\ListBoxInputBehavior.cs" />
+    <Compile Include="View\ListBoxScrollIntoViewBehavior.cs" />
+    <Compile Include="View\ScrollViewerScrollBarSyncBehavior.cs" />
     <Compile Include="View\TypeSelectionWindow.xaml.cs">
       <DependentUpon>TypeSelectionWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\WindowKeyRoutingBehaviors.cs" />
+    <Compile Include="Services\VisualStudioOwnerHandleProvider.cs" />
+    <Compile Include="View\WindowKeyRoutingBehavior.cs" />
     <Compile Include="View\WindowPositionHelper.cs" />
-    <Compile Include="View\WindowWidthBehaviors.cs" />
+    <Compile Include="View\WindowWidthBehavior.cs" />
     <Compile Include="ViewModels\DelegateCommand.cs" />
     <Compile Include="ViewModels\DelegateCommandWithParameter.cs" />
     <Compile Include="ViewModels\GroupHeaderEntry.cs" />

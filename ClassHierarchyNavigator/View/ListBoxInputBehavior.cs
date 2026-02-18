@@ -4,13 +4,13 @@ using System.Windows.Input;
 
 namespace ClassHierarchyNavigator.View
 {
-    public static class ListBoxInputBehaviors
+    public static class ListBoxInputBehavior
     {
         public static readonly DependencyProperty DoubleClickCommandProperty =
           DependencyProperty.RegisterAttached(
             "DoubleClickCommand",
             typeof(ICommand),
-            typeof(ListBoxInputBehaviors),
+            typeof(ListBoxInputBehavior),
             new PropertyMetadata(null, HandleDoubleClickCommandChanged));
 
         public static ICommand? GetDoubleClickCommand(DependencyObject dependencyObject)
