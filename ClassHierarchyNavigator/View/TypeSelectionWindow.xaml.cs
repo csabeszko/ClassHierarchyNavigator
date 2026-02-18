@@ -4,6 +4,7 @@ using ClassHierarchyNavigator.ViewModels;
 using Microsoft.CodeAnalysis;
 using System.Collections.Generic;
 using System.Windows;
+using System.Windows.Input;
 
 namespace ClassHierarchyNavigator.View
 {
@@ -36,6 +37,19 @@ namespace ClassHierarchyNavigator.View
         {
             SelectedSymbol = closeRequest.SelectedSymbol;
             DialogResult = closeRequest.DialogResult;
+            Close();
+        }
+
+        private void HandleMouseLeftButtonDown(object sender, MouseButtonEventArgs eventArgs)
+        {
+            if (eventArgs.ButtonState == MouseButtonState.Pressed)
+            {
+                DragMove();
+            }
+        }
+
+        private void HandleCloseButtonClick(object sender, RoutedEventArgs eventArgs)
+        {
             Close();
         }
     }

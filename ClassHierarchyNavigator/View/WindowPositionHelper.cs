@@ -15,6 +15,8 @@ namespace ClassHierarchyNavigator.View
                 return;
             }
 
+            window.Topmost = false;
+
             var visualStudioOwnerHandle = GetVisualStudioDialogOwnerHandle();
             if (visualStudioOwnerHandle == IntPtr.Zero)
             {
@@ -22,10 +24,10 @@ namespace ClassHierarchyNavigator.View
                 return;
             }
 
-            window.WindowStartupLocation = WindowStartupLocation.CenterOwner;
-
             var windowInteropHelper = new WindowInteropHelper(window);
             windowInteropHelper.Owner = visualStudioOwnerHandle;
+
+            window.WindowStartupLocation = WindowStartupLocation.CenterOwner;
         }
 
         private static IntPtr GetVisualStudioDialogOwnerHandle()

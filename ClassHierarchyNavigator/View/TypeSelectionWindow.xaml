@@ -120,9 +120,10 @@
                 <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
 
-            <Grid Grid.Row="0" Margin="0,0,0,8">
+            <Grid Grid.Row="0" Margin="0,0,0,8" MouseLeftButtonDown="HandleMouseLeftButtonDown">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
                     <ColumnDefinition Width="Auto" />
                 </Grid.ColumnDefinitions>
 
@@ -134,11 +135,69 @@
                    TextTrimming="CharacterEllipsis" />
 
                 <Image Grid.Column="1"
-               Margin="10,0,0,0"
-               Width="14"
-               Height="14"
-               Source="{Binding DirectionArrowSource}"
-               RenderTransformOrigin="0.5,0.5" />
+                   Margin="10,0,0,0"
+                   Width="14"
+                   Height="14"
+                   Source="{Binding DirectionArrowSource}"
+                   RenderTransformOrigin="0.5,0.5" />
+
+                <Button x:Name="CloseButton"
+                    Grid.Column="2"
+                    Width="23"
+                    Height="23"
+                    HorizontalAlignment="Right"
+                    VerticalAlignment="Center"
+                    Margin="8,0,0,0"
+                    Padding="0"
+                    Background="Transparent"
+                    BorderThickness="0"
+                    FocusVisualStyle="{x:Null}"
+                    ToolTip="Close"
+                    Click="HandleCloseButtonClick"> 
+
+                    <TextBlock Text="✕"
+                       FontSize="11"
+                       FontWeight="SemiBold"
+                       VerticalAlignment="Center"
+                       HorizontalAlignment="Center"
+                       Foreground="{DynamicResource {x:Static themes:VsBrushes.ToolWindowTextKey}}"/> 
+
+                    <Button.Template>
+                        <ControlTemplate TargetType="{x:Type Button}">
+                            <Border x:Name="Border"
+                                CornerRadius="4"
+                                BorderThickness="1"
+                                Background="{DynamicResource {x:Static themes:VsBrushes.ToolWindowBackgroundKey}}"
+                                BorderBrush="{DynamicResource {x:Static themes:VsBrushes.ToolWindowBorderKey}}"
+                                SnapsToDevicePixels="True"> 
+                                <ContentPresenter HorizontalAlignment="Center"
+                                  VerticalAlignment="Center"/>
+                            </Border>
+
+                            <ControlTemplate.Triggers>
+                                <Trigger Property="IsMouseOver" Value="True">
+                                    <Setter TargetName="Border" Property="Background"
+                            Value="{DynamicResource {x:Static themes:VsBrushes.AccentMediumKey}}"/>
+                                    <Setter TargetName="Border" Property="BorderBrush"
+                            Value="{DynamicResource {x:Static themes:VsBrushes.AccentPaleKey}}"/>
+                                </Trigger>
+
+                                <Trigger Property="IsPressed" Value="True">
+                                    <Setter TargetName="Border" Property="Background"
+                            Value="{DynamicResource {x:Static themes:VsBrushes.ToolWindowBackgroundKey}}"/>
+                                    <Setter TargetName="Border" Property="BorderBrush"
+                            Value="{DynamicResource {x:Static themes:VsBrushes.ToolWindowBorderKey}}"/>
+                                </Trigger>
+
+                                <Trigger Property="IsEnabled" Value="False">
+                                    <Setter Property="Foreground"
+                            Value="{DynamicResource {x:Static themes:VsBrushes.GrayTextKey}}"/>
+                                </Trigger>
+                            </ControlTemplate.Triggers>
+                        </ControlTemplate>
+                    </Button.Template>
+                </Button>
+
             </Grid>
 
             <Grid Grid.Row="1" Margin="0,0,0,8">
